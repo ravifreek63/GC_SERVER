@@ -271,7 +271,7 @@ bool GC_SERVER::runServer(){
 	    return true;
 }
 
-void quitproc()
+void quitproc(int dummy)
 { 		 printf("ctrl-\\ pressed to quit\n");
 		 exit(0); /* normal exit status */
 }
