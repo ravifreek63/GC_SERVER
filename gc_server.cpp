@@ -1,10 +1,11 @@
 
 #include "gc_server.hpp"
 
-int GC_SERVER::shmid = -1;;
+int GC_SERVER::shmid = -1;
+char* GC_SERVER::shm = NULL;
 
 void* GC_SERVER::writeToMemory(string msg){
-	return memcpy (shm, msg.c_str(), msg.size());
+	return memcpy (GC_SERVER::shm, msg.c_str(), msg.size());
 }
 
 ClientSignal GC_SERVER::strToCS(string str){
@@ -146,7 +147,7 @@ void GC_SERVER::buildRequestQueue(){
 void GC_SERVER::processSharedMemory(){
 	int lineCount = 0;
 	std::string line;
-	std::stringstream stringStream((std::string(shm)));
+	std::stringstream stringStream((std::string(GC_SERVER::shm)));
 	// Clearing the client state
 	clientStates.clear();
 	while(true){
@@ -211,7 +212,7 @@ string long_to_string(long int value){
 
 void GC_SERVER::signalClients(){
     int clientIndex = getClientForGC(), count = -1;
-    string str(shm);
+    string str(GC_SERVER::shm);
     int pos = 0, startPos, endPos, length;
     char newLine = '\n', delimiter =':';
     if(clientIndex > -1){
@@ -225,7 +226,7 @@ void GC_SERVER::signalClients(){
         str.erase(pos+1, length);
         str.insert(pos+1, long_to_string(getCurrentTime()));
     }
-    memcpy(shm, str.c_str(), str.size());
+    memcpy(GC_SERVER::shm, str.c_str(), str.size());
 }
 
 bool GC_SERVER::runServer(){
@@ -241,7 +242,7 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Now we attach the segment to our data space.
 	     */
-	    if ((shm = (char *) shmat(GC_SERVER::shmid, NULL, 0)) == (char *) -1) {
+	    if ((GC_SERVER::shm = (char *) shmat(GC_SERVER::shmid, NULL, 0)) == (char *) -1) {
 	        perror("shmat");
 	        return false;
 	    }
@@ -279,7 +280,11 @@ void quitproc(int dummy){
 		perror("unable to delete the segment");
 		exit(-1);
 	} else {
-		cout << "deleted segment with id" << GC_SERVER::shmid << " successfully"<< endl;
+		if(shmdt(GC_SERVER::shm) == -1){
+			perror("unable to detach the segment");
+			exit(-1);
+		} else
+			cout << "deleted segment with id" << GC_SERVER::shmid << " successfully"<< endl;
 	}
 		 exit(0); /* normal exit status */
 }
