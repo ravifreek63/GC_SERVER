@@ -1,5 +1,6 @@
 
 #include "gc_server.hpp"
+int GC_SERVER::shmid = -1;;
 
 void* GC_SERVER::writeToMemory(string msg){
 	return memcpy (shm, msg.c_str(), msg.size());
