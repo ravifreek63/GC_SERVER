@@ -231,7 +231,7 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Create the segment.
 	     */
-	    if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0644)) < 0) {
+	    if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {
 	        perror("shmget");
 	        return false;
 	    }
@@ -271,8 +271,14 @@ bool GC_SERVER::runServer(){
 	    return true;
 }
 
+void quitproc()
+{ 		 printf("ctrl-\\ pressed to quit\n");
+		 exit(0); /* normal exit status */
+}
+
 int main()
 {
+	signal(SIGINT, quitproc);
 	GC_SERVER* gc_server = new GC_SERVER();
 	gc_server->runServer();
 	return 0;

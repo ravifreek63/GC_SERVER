@@ -24,6 +24,7 @@
 #include <sys/time.h>
 #include <queue>
 #include <stdlib.h>
+#include <signal.h>
 
 using namespace std;
 
