@@ -231,7 +231,7 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Create the segment.
 	     */
-	    if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {
+	    if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0644)) < 0) {
 	        perror("shmget");
 	        return false;
 	    }
