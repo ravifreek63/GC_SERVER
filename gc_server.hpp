@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <iostream>
-#include <string.h>
 #include <string>
 #include <fcntl.h>           /* For O_* constants */
 #include <sys/stat.h>        /* For mode constants */
