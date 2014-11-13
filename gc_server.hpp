@@ -87,7 +87,6 @@ class GC_SERVER {
     		     */
     		    key = 5678;
     		    sem_name = string("gc_sem");
-    		    shmid = -1;
     		    mutex = NULL;
     		    shm = NULL;
     	}
