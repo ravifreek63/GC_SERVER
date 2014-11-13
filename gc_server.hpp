@@ -34,8 +34,8 @@ using namespace std;
 // First Line -> List of Process Ids in order to identify (100 bytes)
 // Second Line Onwards -> Process Id:Client Request:Server Response(100 bytes)
 
-enum ClientSignal { Query, GCBusy, GCIdle, None};
-enum ServerSignal { Wait, GCStart, None};
+enum ClientSignal { Query, GCBusy, GCIdle, NoneC};
+enum ServerSignal { Wait, GCStart, NoneS};
 
 class Client_State{
 private:
@@ -69,9 +69,9 @@ class GC_SERVER {
     	int shmid;
     	key_t key;
     	char *shm;
-    	char sem_name[] = "gc_server_sem";
+    	char sem_name[] = "gc_sem";
     	sem_t* mutex;
-    	int processIds[];
+    	int processIds[MAX_PROCESSES];
     	int numberProcesses;
     	vector <Client_State*> clientStates;
     	queue <Client_State*> requestQueue;
@@ -79,7 +79,6 @@ class GC_SERVER {
 	public:
     	GC_SERVER(){
     		numberProcesses = 0;
-    		processIds = new int[MAX_PROCESSES];
     		 /*
     		     * We'll name our shared memory segment
     		     * "5678".

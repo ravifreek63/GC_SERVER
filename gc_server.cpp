@@ -6,27 +6,23 @@ void* GC_SERVER::writeToMemory(string msg){
 }
 
 ClientSignal GC_SERVER::strToCS(string str){
-	switch(str){
-	case "Q":
+	if(str.compare("Q") == 0)
 		return Query;
-	case "GCB":
+	else if(str.compare("GCB") == 0)
 		return GCBusy;
-	case "I":
+	else if(str.compare("I") == 0)
 		return GCIdle;
-	default:
-		return None;
-	}
+	else
+		return NoneC;
 }
 
 ServerSignal GC_SERVER::strToSS(string str){
-	switch(str){
-	case "W":
+	if(str.compare("W") == 0)
 		return Wait;
-	case "GCS":
+	else if(str.compare("GCS") == 0)
 		return GCStart;
-	default:
-		return None;
-	}
+	else
+		return NoneS;
 }
 
 int GC_SERVER::strToInt(string str){
@@ -199,7 +195,7 @@ int findNthPositionOfCharAfter(string str, int n, char ch, int startIndex){
 
 long int getCurrentTime(){
 	struct timeval tp;
-	gettimeofday(&tp);
+	gettimeofday(&tp, NULL);
 	long int ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
 	return ms;
 }
@@ -244,7 +240,7 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Now we attach the segment to our data space.
 	     */
-	    if ((shm = shmat(shmid, NULL, 0)) == (char *) -1) {
+	    if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
 	        perror("shmat");
 	        return false;
 	    }
