@@ -1,5 +1,6 @@
 
 #include "gc_server.hpp"
+
 int GC_SERVER::shmid = -1;;
 
 void* GC_SERVER::writeToMemory(string msg){
@@ -232,7 +233,7 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Create the segment.
 	     */
-	    if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {
+	    if ((GC_SERVER::shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {
 	        perror("shmget");
 	        return false;
 	    }
@@ -240,7 +241,7 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Now we attach the segment to our data space.
 	     */
-	    if ((shm = (char *) shmat(shmid, NULL, 0)) == (char *) -1) {
+	    if ((shm = (char *) shmat(GC_SERVER::shmid, NULL, 0)) == (char *) -1) {
 	        perror("shmat");
 	        return false;
 	    }

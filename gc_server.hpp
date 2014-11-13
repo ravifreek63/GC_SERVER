@@ -78,7 +78,7 @@ class GC_SERVER {
     	queue <Client_State*> requestQueue;
 
 	public:
-
+    	static int shmid;
     	GC_SERVER(){
     		numberProcesses = 0;
     		 /*
