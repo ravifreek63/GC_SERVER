@@ -69,7 +69,7 @@ class GC_SERVER {
     	int shmid;
     	key_t key;
     	char *shm;
-    	char sem_name[] = "gc_sem";
+    	string sem_name;
     	sem_t* mutex;
     	int processIds[MAX_PROCESSES];
     	int numberProcesses;
@@ -84,6 +84,10 @@ class GC_SERVER {
     		     * "5678".
     		     */
     		    key = 5678;
+    		    sem_name = string("gc_sem");
+    		    shmid = -1;
+    		    mutex = NULL;
+    		    shm = NULL;
     	}
     	void* writeToMemory(string);
     	bool runServer(void);

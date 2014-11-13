@@ -67,7 +67,6 @@ void GC_SERVER::processMessageLine(string line){
 	vector<string>::iterator strVecIt;
 	string tokenStr;
 	int count=0;
-	pid_t processId;
 	ClientSignal clientSignal;
 	ServerSignal serverSignal;
 	time_t cst, sst;
@@ -83,7 +82,7 @@ void GC_SERVER::processMessageLine(string line){
 			break;
 
 			case 3:
-				serverSignal = strToCS(tokenStr);
+				serverSignal = strToSS(tokenStr);
 			break;
 
 			case 4:
@@ -101,7 +100,7 @@ void GC_SERVER::processMessageLine(string line){
 		count++;
 	}
 	// Pushing the client state in the container
-	clientStates.push_back(new Client_State(processId, clientSignal, serverSignal, cst, sst));
+	clientStates.push_back(new Client_State((pid_t)processId, clientSignal, serverSignal, cst, sst));
 }
 
 void GC_SERVER::clearReqQueue(){
@@ -200,7 +199,7 @@ long int getCurrentTime(){
 	return ms;
 }
 
-string to_string(long int value){
+string long_to_string(long int value){
 	  std::ostringstream os ;
       //throw the value into the string stream
       os << value ;
@@ -222,7 +221,7 @@ void GC_SERVER::signalClients(){
         endPos = str.find(newLine, startPos+1);
         length = endPos-pos-1;
         str.erase(pos+1, length);
-        str.insert(pos+1, to_string(getCurrentTime()));
+        str.insert(pos+1, long_to_string(getCurrentTime()));
     }
     memcpy(shm, str.c_str(), str.size());
 }
@@ -251,10 +250,10 @@ bool GC_SERVER::runServer(){
 	    int oflags = O_CREAT | O_EXCL;
 	    mode_t mode = 0644;
 	    unsigned int initialValue = 1;
-	    mutex = sem_open(sem_name, oflags, mode,initialValue);
+	    mutex = sem_open(sem_name.c_str(), oflags, mode,initialValue);
 	    if(mutex == SEM_FAILED){
 	    	perror("unable to create semaphore");
-	    	sem_unlink(sem_name);
+	    	sem_unlink(sem_name.c_str());
 	    	exit(-1);
 	    }
 
