@@ -23,6 +23,7 @@
 #include <sstream>
 #include <sys/time.h>
 #include <queue>
+#include <stdlib.h>
 
 using namespace std;
 
