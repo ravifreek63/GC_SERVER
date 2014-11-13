@@ -107,6 +107,7 @@ class GC_SERVER {
     	void buildRequestQueue(void);
     	int getClientForGC(void);
     	void signalClients();
+    	void quitproc(int dummy);
 };
 
 
