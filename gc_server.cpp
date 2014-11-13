@@ -144,7 +144,7 @@ void GC_SERVER::buildRequestQueue(){
 void GC_SERVER::processSharedMemory(){
 	int lineCount = 0;
 	std::string line;
-	std::stringstream stringStream(std::string(shm));
+	std::istringstream stringStream(std::string(shm));
 	// Clearing the client state
 	clientStates.clear();
 	while(true){
