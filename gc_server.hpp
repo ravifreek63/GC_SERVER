@@ -68,7 +68,7 @@ public:
 
 class GC_SERVER {
 	private:
-    	int shmid;
+    	static int shmid;
     	key_t key;
     	char *shm;
     	string sem_name;
@@ -107,7 +107,6 @@ class GC_SERVER {
     	void buildRequestQueue(void);
     	int getClientForGC(void);
     	void signalClients();
-    	void quitproc(int dummy);
 };
 
 

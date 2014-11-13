@@ -271,9 +271,9 @@ bool GC_SERVER::runServer(){
 	    return true;
 }
 
-void GC_SERVER::quitproc(int dummy){
+void quitproc(int dummy){
 	printf("ctrl-\\ pressed to quit\n");
-	if ((shmctl(shmid,IPC_RMID,0))==-1){
+	if ((shmctl(GC_SERVER::shmid,IPC_RMID,0))==-1){
 
 	}
 		 exit(0); /* normal exit status */
@@ -281,8 +281,8 @@ void GC_SERVER::quitproc(int dummy){
 
 int main()
 {
+	signal(SIGINT, quitproc);
 	GC_SERVER* gc_server = new GC_SERVER();
-	signal(SIGINT, gc_server->quitproc);
 	gc_server->runServer();
 	return 0;
 }
