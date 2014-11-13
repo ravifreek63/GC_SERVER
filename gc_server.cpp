@@ -276,7 +276,10 @@ bool GC_SERVER::runServer(){
 void quitproc(int dummy){
 	printf("ctrl-\\ pressed to quit\n");
 	if ((shmctl(GC_SERVER::shmid,IPC_RMID,0))==-1){
-
+		perror("unable to delete the segment");
+		exit(-1);
+	} else {
+		cout << "deleted segment with id" << GC_SERVER::shmid << " successfully"<< endl;
 	}
 		 exit(0); /* normal exit status */
 }
