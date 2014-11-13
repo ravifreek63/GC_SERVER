@@ -68,7 +68,6 @@ public:
 
 class GC_SERVER {
 	private:
-    	static int shmid;
     	key_t key;
     	char *shm;
     	string sem_name;
@@ -79,6 +78,7 @@ class GC_SERVER {
     	queue <Client_State*> requestQueue;
 
 	public:
+    	static int shmid;
     	GC_SERVER(){
     		numberProcesses = 0;
     		 /*
