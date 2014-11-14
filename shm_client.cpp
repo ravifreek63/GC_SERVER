@@ -169,7 +169,7 @@ int main()
     /*
      * Locate the segment.
      */
-    if ((shmid = shmget(key, SHMSZ, 0666)) < 0) {
+    if ((shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {
         perror("shmget");
         exit(1);
     }
