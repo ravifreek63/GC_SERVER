@@ -185,10 +185,10 @@ int main()
     /*
      *  Creating a semaphore
      */
-    int oflags = 0;
+    int oflags = O_CREAT | O_EXCL;
     mode_t mode = 0644;
     unsigned int initialValue = 0;
-    string sem_name = string("gc_sem");
+    string sem_name = string("gc_sem_2");
     sem_t* mutex = sem_open(sem_name.c_str(), oflags, mode, initialValue);
     if(mutex == SEM_FAILED){
     	perror("unable to create semaphore");
@@ -197,6 +197,13 @@ int main()
     }
     cout << "Client::Created the semaphore" << endl;
     bool isGC=false;
+	sem_wait(mutex);
+	// Registering the client
+	registerClient(shm);
+	// Releasing the lock
+	sem_post(mutex);
+	cout << "After the client registration" << endl << shm << endl;
+	exit(0);
     while(isGC==false){
     	// Getting the lock
     	sem_wait(mutex);
