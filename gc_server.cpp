@@ -226,6 +226,7 @@ string long_to_string(long int value){
 
 void GC_SERVER::signalClients(){
     int clientIndex = getClientForGC(), count = -1;
+    cout << "clientIndex "  << clientIndex << endl;
     string str(GC_SERVER::shm);
     int pos = 0, startPos, endPos, length;
     char newLine = '\n', delimiter =':';
