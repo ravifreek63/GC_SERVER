@@ -95,6 +95,7 @@ int getIndex(string str, string searchString){
 }
 
 bool checkIfCanGC(char *shm){
+	cout << "In checkIfCanGC" << endl;
 	string processId = int_to_string((int)getpid());
 	int pos, size, startPos, endPos, length;
 	std::string line;
@@ -121,6 +122,7 @@ bool checkIfCanGC(char *shm){
 }
 
 void registerClient(char *shm){
+	cout << "In register client" << endl;
 	string processId = int_to_string(getpid());
 	// Check if there is already an existing process
 	int pos, size;
