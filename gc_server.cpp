@@ -97,7 +97,7 @@ void GC_SERVER::processMessageLine(string line){
 				break;
 
 			default:
-			 cout << "Default value reached for processMessageLine" << endl;
+			 cout << "Default value reached for processMessageLine, Value =-" << tokenStr << "-" << endl;
 			return;
 		}
 		count++;
