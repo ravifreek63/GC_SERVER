@@ -118,6 +118,7 @@ bool checkIfCanGC(char *shm){
 		shmStr.insert(pos+1, timeStr);
 		return true;
 	}
+	cout << shmStr << endl;
 	return false;
 }
 
@@ -134,7 +135,7 @@ void registerClient(char *shm){
 	string msgStr =
 		processId + (delimiter) +
 		('W') + (delimiter) +
-		('N') + (delimiter) +
+		string("GCS") + (delimiter) +
 		long_to_string((getCurrentTime())) + (delimiter) +
 		long_to_string((getCurrentTime())) + (newLine);
 
@@ -203,15 +204,15 @@ int main()
 	// Releasing the lock
 	sem_post(mutex);
 	cout << "After the client registration" << endl << shm << endl;
-	exit(0);
     while(isGC==false){
     	// Getting the lock
     	sem_wait(mutex);
     	// Checking the memory segment
-    	registerClient(shm);
     	isGC = checkIfCanGC(shm);
     	// Releasing the lock
     	sem_post(mutex);
+    	cout << "After the checkIfCanGC" << endl << shm << endl;
+    	break;
     	usleep(CLIENT_SLEEP_TIME);
     }
 
