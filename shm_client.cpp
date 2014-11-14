@@ -109,6 +109,7 @@ bool checkIfCanGC(char *shm){
 	startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0);
 	cout << "StartPos " << startPos << endl;
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
+	cout << "Position " << pos << endl;
 	if(shmStr.compare(pos+1, 3, "GCS") == 0){
 		shmStr.erase(pos-1, 1);
 		shmStr.insert(pos-1, "GCB");
