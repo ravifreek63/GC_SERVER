@@ -164,6 +164,7 @@ void GC_SERVER::processSharedMemory(){
 	clientStates.clear();
 	char delimiter=':';
 	int numPro=countChars(std::string(GC_SERVER::shm), delimiter)+1;
+	cout << "number of processes :: " << numPro << endl;
 	while(lineCount<(numPro+1)){
 			std::getline(stringStream, line);
 			lineCount++;
