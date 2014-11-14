@@ -166,6 +166,7 @@ void registerClient(char *shm){
 	std::string shmStr = string(shm);
 	std::stringstream stringStream(shmStr);
 	char newLine ='\n', delimiter = ':';
+	string delimiterStr = ":";
 	string msgStr =
 		processId + (delimiter) +
 		('Q') + (delimiter) +
@@ -179,7 +180,8 @@ void registerClient(char *shm){
 		if(size>0){
 			// add its own process id at the back
 				pos = shmStr.find(newLine, 0);
-				shmStr.insert(pos, (processId));
+				shmStr.insert(pos, delimiterStr);
+				shmStr.insert(pos+1, (processId));
 				shmStr += msgStr;
 				memcpy(shm, shmStr.c_str(), shmStr.size());
 			} else {
