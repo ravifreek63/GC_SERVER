@@ -187,7 +187,7 @@ int main()
      */
     int oflags = O_CREAT | O_EXCL;
     mode_t mode = 0644;
-    unsigned int initialValue = 0;
+    unsigned int initialValue = 1;
     string sem_name = string("gc_sem_2");
     sem_t* mutex = sem_open(sem_name.c_str(), oflags, mode, initialValue);
     if(mutex == SEM_FAILED){
