@@ -25,7 +25,9 @@
 #include <queue>
 #include <stdlib.h>
 #include <signal.h>
-#define LOG_LEVEL_HIGH
+
+#define LOG_LEVEL_HIGH 0
+#define LOG_LEVEL_LOW 1
 
 using namespace std;
 
@@ -107,6 +109,7 @@ class GC_SERVER {
     	void buildRequestQueue(void);
     	int getClientForGC(void);
     	void signalClients();
+    	void printSMState(string);
 };
 
 

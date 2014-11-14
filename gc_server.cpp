@@ -155,7 +155,9 @@ int countChars(string str, char ch){
 
 // Processing the shared memory
 void GC_SERVER::processSharedMemory(){
+#if LOG_LEVEL_HIGH
 	cout << "In process shared memory" << endl;
+#endif
 	if(*(GC_SERVER::shm) == '\n')
 		return;
 	int lineCount = 0;
@@ -166,13 +168,14 @@ void GC_SERVER::processSharedMemory(){
 	char delimiter=':';
 	std::getline(stringStream, line);
 	int numPro=countChars(line, delimiter)+1;
+#if LOG_LEVEL_HIGH
 	cout << "number of processes :: " << numPro << endl;
+#endif
 	while(lineCount<(numPro+1)){
 			lineCount++;
 			// The first line is the the set of processes.
 			if(lineCount == 1){
 					vector<string> process_Ids = splitStrings(line);
-					cout << "length=" << process_Ids.size() << endl;
 					if(!resetProcessIds(process_Ids)){
 						cout << "Error in processing shared memory state in processSharedMemory()" << endl;
 					}
@@ -229,11 +232,14 @@ string long_to_string(long int value){
 
 void GC_SERVER::signalClients(){
     int clientIndex = getClientForGC(), count = -1;
-    cout << "clientIndex "  << clientIndex << endl;
     string str(GC_SERVER::shm);
     int pos = 0, startPos, endPos, length;
     char newLine = '\n', delimiter =':';
     if(clientIndex > -1){
+#if LOG_LEVEL_LOW
+    cout << "Signaling client with clientIndex "  << clientIndex << endl;
+	printSMState("Before Signal to the client");
+#endif
         startPos = findNthPositionOfCharAfter(str, clientIndex+1, newLine, -1);
         pos = findNthPositionOfCharAfter(str, 2, delimiter, startPos);
         if(str.at(pos+1) == 'N'){
@@ -246,9 +252,15 @@ void GC_SERVER::signalClients(){
 			str.insert(pos+1, long_to_string(getCurrentTime()));
 			memcpy(GC_SERVER::shm, str.c_str(), str.size());
 			memset(GC_SERVER::shm+str.size(), 0, _PAGE_SIZE-str.size());
-			cout << "Signal to the client done" << endl;
+#if LOG_LEVEL_LOW
+			printSMState("Signal to the client done");
+#endif
         }
     }
+}
+
+void GC_SERVER::printSMState(string msg){
+	cout << msg << endl << " Shared Memory State " << endl << GC_SERVER::shm << endl;
 }
 
 bool GC_SERVER::runServer(){
