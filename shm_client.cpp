@@ -105,26 +105,20 @@ bool checkIfCanGC(char *shm){
 	vector<string> process_Ids = splitStrings(line);
 	size = process_Ids.size();
 	int index = getIndex(shmStr, processId);
-	cout << "Index " << index << endl;
 	startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0);
-	cout << "StartPos " << startPos << endl;
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
-	cout << "Position " << pos << endl;
 	if(shmStr.compare(pos+1, 3, "GCS") == 0){
 		shmStr.erase(pos-1, 1);
 		shmStr.insert(pos-1, "GCB");
-		cout << shmStr << endl;
 		string timeStr = long_to_string(getCurrentTime());
 		pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 		endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 		length = endPos - pos - 1;
 		shmStr.erase(pos+1, length);
 		shmStr.insert(pos+1, timeStr);
-		cout << shmStr << endl;
 		memcpy(shm, shmStr.c_str(), shmStr.size());
 		return true;
 	}
-	cout << shmStr << endl;
 	return false;
 }
 
@@ -192,10 +186,10 @@ int main()
     /*
      *  Creating a semaphore
      */
-    int oflags = O_CREAT | O_EXCL;
+    int oflags = 0;
     mode_t mode = 0644;
-    unsigned int initialValue = 1;
-    string sem_name = string("gc_sem_2");
+    unsigned int initialValue = 0;
+    string sem_name = string("gc_sem");
     sem_t* mutex = sem_open(sem_name.c_str(), oflags, mode, initialValue);
     if(mutex == SEM_FAILED){
     	perror("unable to create semaphore");
@@ -209,7 +203,6 @@ int main()
 	registerClient(shm);
 	// Releasing the lock
 	sem_post(mutex);
-	cout << "After the client registration" << endl << shm << endl;
     while(isGC==false){
     	// Getting the lock
     	sem_wait(mutex);
@@ -217,8 +210,6 @@ int main()
     	isGC = checkIfCanGC(shm);
     	// Releasing the lock
     	sem_post(mutex);
-    	cout << "After the checkIfCanGC" << endl << shm << endl;
-    	break;
     	usleep(CLIENT_SLEEP_TIME);
     }
 
