@@ -234,6 +234,9 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Create the segment.
 	     */
+#ifdef LOG_LEVEL_HIGH
+		cout << "Server::creating the segment" << endl;
+#endif
 	    if ((GC_SERVER::shmid = shmget(key, SHMSZ, IPC_CREAT | 0666)) < 0) {
 	        perror("shmget");
 	        return false;
@@ -242,6 +245,9 @@ bool GC_SERVER::runServer(){
 	    /*
 	     * Now we attach the segment to our data space.
 	     */
+#ifdef LOG_LEVEL_HIGH
+		cout << "Server::attaching the segment" << endl;
+#endif
 	    if ((GC_SERVER::shm = (char *) shmat(GC_SERVER::shmid, NULL, 0)) == (char *) -1) {
 	        perror("shmat");
 	        return false;
@@ -291,6 +297,9 @@ void quitproc(int dummy){
 
 int main()
 {
+#ifdef LOG_LEVEL_HIGH
+	cout << "Server::Registering the signal" << endl;
+#endif
 	signal(SIGINT, quitproc);
 	GC_SERVER* gc_server = new GC_SERVER();
 	gc_server->runServer();

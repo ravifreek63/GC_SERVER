@@ -25,6 +25,7 @@
 #include <queue>
 #include <stdlib.h>
 #include <signal.h>
+#define LOG_LEVEL_HIGH
 
 using namespace std;
 
