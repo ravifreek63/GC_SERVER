@@ -113,12 +113,14 @@ bool checkIfCanGC(char *shm){
 	if(shmStr.compare(pos+1, 3, "GCS") == 0){
 		shmStr.erase(pos-1, 1);
 		shmStr.insert(pos-1, "GCB");
+		cout << shmStr << endl;
 		string timeStr = long_to_string(getCurrentTime());
 		pos = findNthPositionOfCharAfter(shmStr, 3, newLine, startPos);
 		endPos = findNthPositionOfCharAfter(shmStr, 4, newLine, startPos);
 		length = endPos - pos - 1;
 		shmStr.erase(pos+1, length);
 		shmStr.insert(pos+1, timeStr);
+		cout << shmStr << endl;
 		memcpy(shm, shmStr.c_str(), shmStr.size());
 		return true;
 	}
