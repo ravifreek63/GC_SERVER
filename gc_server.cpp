@@ -112,7 +112,7 @@ void GC_SERVER::clearReqQueue(){
 }
 
 int GC_SERVER::getClientForGC(){
-	int clientIndex = 0, sClientIndex = 0;
+	int clientIndex = 0, sClientIndex = -1;
 	time_t stime = 0;
 	Client_State* cs;
 	vector <Client_State*>::iterator csi /*clientStatesIterator*/;
@@ -178,6 +178,7 @@ void GC_SERVER::processSharedMemory(){
 				processMessageLine(line);
 			}
 		}
+	signalClients();
 }
 
 vector<string> GC_SERVER::splitStrings(string inputString){
@@ -287,7 +288,6 @@ bool GC_SERVER::runServer(){
 	    	sem_wait(mutex);
 	    	// Checking the memory segment
 	    	processSharedMemory();
-	    	signalClients();
 	    	// Releasing the lock
 	    	sem_post(mutex);
 	    	usleep(SERVER_SLEEP_TIME);
