@@ -145,14 +145,14 @@ void GC_SERVER::buildRequestQueue(){
 
 // Processing the shared memory
 void GC_SERVER::processSharedMemory(){
+	cout << "In process shared memory" << endl;
 	int lineCount = 0;
 	std::string line;
 	std::stringstream stringStream((std::string(GC_SERVER::shm)));
 	// Clearing the client state
 	clientStates.clear();
-	while(true){
+	while(std::getline(stringStream, line)){
 		lineCount++;
-		while(std::getline(stringStream, line)){
 			// The first line is the the set of processes.
 			if(lineCount == 1){
 					vector<string> process_Ids = splitStrings(line);
@@ -164,7 +164,6 @@ void GC_SERVER::processSharedMemory(){
 				processMessageLine(line);
 			}
 		}
-	}
 }
 
 vector<string> GC_SERVER::splitStrings(string inputString){
