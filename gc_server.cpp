@@ -70,7 +70,7 @@ void GC_SERVER::processMessageLine(string line){
 	vector<string> strVec = splitStrings(line);
 	vector<string>::iterator strVecIt;
 	string tokenStr;
-	int count=0;
+	int count=1;
 	ClientSignal clientSignal;
 	ServerSignal serverSignal;
 	time_t cst, sst;
