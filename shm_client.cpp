@@ -133,6 +133,7 @@ void changeStateToIdle(char *shm){
 	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
 	cout << "State" << endl << shmStr << endl;
 	memcpy(shm, shmStr.c_str(), shmStr.size());
+	memset(shm+shmStr.size(), 0, _PAGE_SIZE-shmStr.size());
 }
 
 bool checkIfCanGC(char *shm){
