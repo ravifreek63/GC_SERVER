@@ -119,7 +119,7 @@ void checkIfCanGC(char *shm){
 }
 
 void registerClient(char *shm){
-	pid_t processId = getpid();
+	string processId = int_to_string(getpid());
 	// Check if there is already an existing process
 	int pos, size;
 	std::string line;
@@ -128,11 +128,11 @@ void registerClient(char *shm){
 	char newLine ='\n', delimiter = ':';
 
 	string msgStr =
-		string(processId) + string(delimiter) +
-		string('W') + string(delimiter) +
-		string('N') + string(delimiter) +
-		long_to_string((getCurrentTime())) + string(delimiter) +
-		long_to_string((getCurrentTime())) + string(newLine);
+		processId + (delimiter) +
+		('W') + (delimiter) +
+		('N') + (delimiter) +
+		long_to_string((getCurrentTime())) + (delimiter) +
+		long_to_string((getCurrentTime())) + (newLine);
 
 	// The first line is the the set of processes.
 		vector<string> process_Ids = splitStrings(line);
@@ -140,12 +140,12 @@ void registerClient(char *shm){
 		if(size>0){
 			// add its own process id at the back
 				pos = shmStr.find(newLine, 0);
-				shmStr.insert(pos, int_to_string(processId));
+				shmStr.insert(pos, (processId));
 				shmStr += msgStr;
 				memcpy(shm, shmStr.c_str(), shmStr.size());
 			} else {
 			// else add its process id at the front
-				string str = string(processId) + string(newLine) + msgStr;
+				string str = processId + (newLine) + msgStr;
 				memcpy(shm, str.c_str(), str.size());
 			}
 }
