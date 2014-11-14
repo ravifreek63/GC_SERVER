@@ -119,6 +119,7 @@ bool checkIfCanGC(char *shm){
 		length = endPos - pos - 1;
 		shmStr.erase(pos+1, length);
 		shmStr.insert(pos+1, timeStr);
+		memcpy(shm, shmStr.c_str(), shmStr.size());
 		return true;
 	}
 	cout << shmStr << endl;
