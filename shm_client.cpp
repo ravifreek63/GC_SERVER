@@ -188,6 +188,7 @@ void registerClient(char *shm){
 				string str = processId + (newLine) + msgStr;
 				memcpy(shm, str.c_str(), str.size());
 			}
+		cout << "After adding the new process" << endl << shm << endl;
 }
 
 int main()
