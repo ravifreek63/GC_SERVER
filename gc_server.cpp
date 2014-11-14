@@ -232,15 +232,17 @@ void GC_SERVER::signalClients(){
     if(clientIndex > -1){
         startPos = findNthPositionOfCharAfter(str, clientIndex+1, newLine, -1);
         pos = findNthPositionOfCharAfter(str, 2, delimiter, startPos);
-        str.erase(pos+1, 1);
-        str.insert(pos+1, string("GCS"));
-        pos = findNthPositionOfCharAfter(str, 4, delimiter, startPos);
-        endPos = str.find(newLine, startPos+1);
-        length = endPos-pos-1;
-        str.erase(pos+1, length);
-        str.insert(pos+1, long_to_string(getCurrentTime()));
+        if(str.at(pos+1) == 'N'){
+			str.erase(pos+1, 1);
+			str.insert(pos+1, string("GCS"));
+			pos = findNthPositionOfCharAfter(str, 4, delimiter, startPos);
+			endPos = str.find(newLine, startPos+1);
+			length = endPos-pos-1;
+			str.erase(pos+1, length);
+			str.insert(pos+1, long_to_string(getCurrentTime()));
+			memcpy(GC_SERVER::shm, str.c_str(), str.size());
+        }
     }
-    memcpy(GC_SERVER::shm, str.c_str(), str.size());
 }
 
 bool GC_SERVER::runServer(){
