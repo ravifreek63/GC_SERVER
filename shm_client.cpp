@@ -166,14 +166,13 @@ void registerClient(char *shm){
 	std::string shmStr = string(shm);
 	std::stringstream stringStream(shmStr);
 	char newLine ='\n', delimiter = ':';
-
 	string msgStr =
 		processId + (delimiter) +
 		('Q') + (delimiter) +
 		('N') + (delimiter) +
 		long_to_string((getCurrentTime())) + (delimiter) +
 		long_to_string((getCurrentTime())) + (newLine);
-
+		getline(stringStream, line);
 	// The first line is the the set of processes.
 		vector<string> process_Ids = splitStrings(line);
 		size = process_Ids.size();
@@ -185,6 +184,7 @@ void registerClient(char *shm){
 				memcpy(shm, shmStr.c_str(), shmStr.size());
 			} else {
 			// else add its process id at the front
+				cout << "No old process found" << endl;
 				string str = processId + (newLine) + msgStr;
 				memcpy(shm, str.c_str(), str.size());
 			}
