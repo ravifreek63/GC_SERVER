@@ -65,6 +65,7 @@ bool GC_SERVER::registerClient(pid_t processId){
 }
 
 void GC_SERVER::processMessageLine(string line){
+	cout << "Processing Message Line " << endl << line << endl;
 	int processId;
 	vector<string> strVec = splitStrings(line);
 	vector<string>::iterator strVecIt;
