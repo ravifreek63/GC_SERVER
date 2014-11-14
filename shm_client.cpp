@@ -122,7 +122,7 @@ void changeStateToIdle(char *shm){
 	shmStr.erase(pos+1, length);
 	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
 	pos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
-	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos);
+	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos+1);
 	length = endPos-pos-1;
 	shmStr.erase(pos+1, length);
 	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
