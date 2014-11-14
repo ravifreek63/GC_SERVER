@@ -105,7 +105,9 @@ bool checkIfCanGC(char *shm){
 	vector<string> process_Ids = splitStrings(line);
 	size = process_Ids.size();
 	int index = getIndex(shmStr, processId);
+	cout << "Index " << index << endl;
 	startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0);
+	cout << "StartPos " << startPos << endl;
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	if(shmStr.compare(pos+1, 3, "GCS") == 0){
 		shmStr.erase(pos-1, 1);
