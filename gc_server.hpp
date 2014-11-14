@@ -32,7 +32,7 @@ using namespace std;
 #define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 #define SHMSZ _PAGE_SIZE
 #define MAX_PROCESSES 5
-#define SERVER_SLEEP_TIME 5
+#define SERVER_SLEEP_TIME 1000
 #define SERVER_KEY 5678
 // First Line -> List of Process Ids in order to identify (100 bytes)
 // Second Line Onwards -> Process Id:Client Request:Server Response(100 bytes)

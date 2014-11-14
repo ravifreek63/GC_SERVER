@@ -25,7 +25,7 @@ using namespace std;
 #define _PAGE_SIZE sysconf(_SC_PAGE_SIZE)
 #define SHMSZ _PAGE_SIZE
 #define CLIENT_KEY 5678
-#define CLIENT_SLEEP_TIME 10
+#define CLIENT_SLEEP_TIME 1000
 
 long int getCurrentTime(){
 	struct timeval tp;
