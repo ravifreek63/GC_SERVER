@@ -94,7 +94,7 @@ int getIndex(string str, string searchString){
 	}
 }
 
-void checkIfCanGC(char *shm){
+bool checkIfCanGC(char *shm){
 	string processId = int_to_string((int)getpid());
 	int pos, size, startPos, endPos, length;
 	std::string line;
@@ -115,7 +115,9 @@ void checkIfCanGC(char *shm){
 		length = endPos - pos - 1;
 		shmStr.erase(pos+1, length);
 		shmStr.insert(pos+1, timeStr);
+		return true;
 	}
+	return false;
 }
 
 void registerClient(char *shm){
@@ -192,13 +194,13 @@ int main()
     	exit(-1);
     }
     cout << "Client::Created the semaphore" << endl;
-
-    while(true){
+    bool isGC=false;
+    while(isGC==false){
     	// Getting the lock
     	sem_wait(mutex);
     	// Checking the memory segment
     	registerClient(shm);
-    	signalServer();
+    	isGC = checkIfCanGC(shm);
     	// Releasing the lock
     	sem_post(mutex);
     	usleep(CLIENT_SLEEP_TIME);
