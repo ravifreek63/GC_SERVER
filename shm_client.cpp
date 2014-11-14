@@ -94,6 +94,26 @@ int getIndex(string str, string searchString){
 	}
 }
 
+void changeStateToIdle(char *shm){
+	cout << "In changeStateToIdle" << endl;
+	string processId = int_to_string((int)getpid());
+	int pos, size, startPos, endPos, length;
+	std::string line;
+	std::string shmStr = string(shm);
+	std::stringstream stringStream(shmStr);
+	char newLine ='\n', delimiter = ':';
+	vector<string> process_Ids = splitStrings(line);
+	size = process_Ids.size();
+	int index = getIndex(shmStr, processId);
+	startPos = findNthPositionOfCharAfter(shmStr, index+1, newLine, 0);
+	pos = findNthPositionOfCharAfter(shmStr, 1, delimiter, startPos);
+	endPos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
+	length = endPos-pos-1;
+	shmStr.erase(pos+1, length);
+	shmStr.insert(pos+1, "I");
+	memcpy(shm, shmStr.c_str(), shmStr.size());
+}
+
 bool checkIfCanGC(char *shm){
 	cout << "In checkIfCanGC" << endl;
 	string processId = int_to_string((int)getpid());
@@ -212,6 +232,8 @@ int main()
     	sem_post(mutex);
     	usleep(CLIENT_SLEEP_TIME);
     }
-
+    // Change the state to Idle
+    changeStateToIdle(shm);
+    cout << "Final State" << endl << shm << endl;
     exit(0);
 }
