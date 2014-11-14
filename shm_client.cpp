@@ -112,21 +112,26 @@ void changeStateToIdle(char *shm){
 	length = endPos-pos-1;
 	shmStr.erase(pos+1, length);
 	shmStr.insert(pos+1, "I");
+	cout << "State" << endl << shmStr << endl;
 	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 	length = endPos-pos-1;
 	shmStr.erase(pos+1, length);
 	shmStr.insert(pos+1, "N");
+	cout << "State" << endl << shmStr << endl;
 	pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
 	endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 	length = endPos-pos-1;
 	shmStr.erase(pos+1, length);
 	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
+	cout << "State" << endl << shmStr << endl;
 	pos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
-	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos+1);
+	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos);
 	length = endPos-pos-1;
 	shmStr.erase(pos+1, length);
+	cout << "State" << endl << shmStr << endl;
 	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
+	cout << "State" << endl << shmStr << endl;
 	memcpy(shm, shmStr.c_str(), shmStr.size());
 }
 
