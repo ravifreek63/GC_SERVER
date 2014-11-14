@@ -115,8 +115,8 @@ bool checkIfCanGC(char *shm){
 		shmStr.insert(pos-1, "GCB");
 		cout << shmStr << endl;
 		string timeStr = long_to_string(getCurrentTime());
-		pos = findNthPositionOfCharAfter(shmStr, 3, newLine, startPos);
-		endPos = findNthPositionOfCharAfter(shmStr, 4, newLine, startPos);
+		pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
+		endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
 		length = endPos - pos - 1;
 		shmStr.erase(pos+1, length);
 		shmStr.insert(pos+1, timeStr);
