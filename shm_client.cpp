@@ -111,6 +111,21 @@ void changeStateToIdle(char *shm){
 	length = endPos-pos-1;
 	shmStr.erase(pos+1, length);
 	shmStr.insert(pos+1, "I");
+	pos = findNthPositionOfCharAfter(shmStr, 2, delimiter, startPos);
+	endPos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
+	length = endPos-pos-1;
+	shmStr.erase(pos+1, length);
+	shmStr.insert(pos+1, "N");
+	pos = findNthPositionOfCharAfter(shmStr, 3, delimiter, startPos);
+	endPos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
+	length = endPos-pos-1;
+	shmStr.erase(pos+1, length);
+	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
+	pos = findNthPositionOfCharAfter(shmStr, 4, delimiter, startPos);
+	endPos = findNthPositionOfCharAfter(shmStr, 1, newLine, startPos);
+	length = endPos-pos-1;
+	shmStr.erase(pos+1, length);
+	shmStr.insert(pos+1, long_to_string(getCurrentTime()));
 	memcpy(shm, shmStr.c_str(), shmStr.size());
 }
 
