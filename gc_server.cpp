@@ -245,6 +245,7 @@ void GC_SERVER::signalClients(){
 			str.erase(pos+1, length);
 			str.insert(pos+1, long_to_string(getCurrentTime()));
 			memcpy(GC_SERVER::shm, str.c_str(), str.size());
+			memset(GC_SERVER::shm+str.size(), 0, _PAGE_SIZE-str.size());
 			cout << "Signal to the client done" << endl;
         }
     }

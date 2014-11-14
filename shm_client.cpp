@@ -159,6 +159,7 @@ bool checkIfCanGC(char *shm){
 		shmStr.erase(pos+1, length);
 		shmStr.insert(pos+1, timeStr);
 		memcpy(shm, shmStr.c_str(), shmStr.size());
+		memset(shm+shmStr.size(), 0, _PAGE_SIZE-shmStr.size());
 		return true;
 	}
 	return false;
@@ -191,11 +192,13 @@ void registerClient(char *shm){
 				shmStr.insert(pos+1, (processId));
 				shmStr += msgStr;
 				memcpy(shm, shmStr.c_str(), shmStr.size());
+				memset(shm+shmStr.size(), 0, _PAGE_SIZE-shmStr.size());
 			} else {
 			// else add its process id at the front
 				cout << "No old process found" << endl;
 				string str = processId + (newLine) + msgStr;
 				memcpy(shm, str.c_str(), str.size());
+				memset(shm+str.size(), 0, _PAGE_SIZE-str.size());
 			}
 		cout << "After adding the new process" << endl << shm << endl;
 }
