@@ -143,16 +143,30 @@ void GC_SERVER::buildRequestQueue(){
 	}
 }
 
+int countChars(string str, char ch){
+	int count=0, index;
+	for(index = 0; index < str.size(); index++){
+		if(str.at(index) == ch)
+			count++;
+	}
+	return count;
+}
+
 // Processing the shared memory
 void GC_SERVER::processSharedMemory(){
 	cout << "In process shared memory" << endl;
+	if(*(GC_SERVER::shm) == '\n')
+		return;
 	int lineCount = 0;
 	std::string line;
 	std::stringstream stringStream((std::string(GC_SERVER::shm)));
 	// Clearing the client state
 	clientStates.clear();
-	while(std::getline(stringStream, line)){
-		lineCount++;
+	char delimiter=':';
+	int numPro=countChars(std::string(GC_SERVER::shm), delimiter)+1;
+	while(lineCount<numPro){
+			std::getline(stringStream, line)
+			lineCount++;
 			// The first line is the the set of processes.
 			if(lineCount == 1){
 					vector<string> process_Ids = splitStrings(line);
@@ -251,6 +265,9 @@ bool GC_SERVER::runServer(){
 	        perror("shmat");
 	        return false;
 	    }
+
+	    memset(shm, 0, _PAGE_SIZE);
+	    memset(shm, '\n', 1);
 
 	    /*
 	     *  Creating a semaphore
