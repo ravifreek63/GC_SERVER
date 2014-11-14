@@ -134,7 +134,7 @@ void registerClient(char *shm){
 
 	string msgStr =
 		processId + (delimiter) +
-		('W') + (delimiter) +
+		('Q') + (delimiter) +
 		('N') + (delimiter) +
 		long_to_string((getCurrentTime())) + (delimiter) +
 		long_to_string((getCurrentTime())) + (newLine);
