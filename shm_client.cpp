@@ -96,6 +96,7 @@ int getIndex(string str, string searchString){
 
 void changeStateToIdle(char *shm){
 	cout << "In changeStateToIdle" << endl;
+	cout << "State" << endl << shm << endl;
 	string processId = int_to_string((int)getpid());
 	int pos, size, startPos, endPos, length;
 	std::string line;
