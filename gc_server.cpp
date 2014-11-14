@@ -171,6 +171,7 @@ void GC_SERVER::processSharedMemory(){
 			// The first line is the the set of processes.
 			if(lineCount == 1){
 					vector<string> process_Ids = splitStrings(line);
+					cout << "length=" << process_Ids.size() << endl;
 					if(!resetProcessIds(process_Ids)){
 						cout << "Error in processing shared memory state in processSharedMemory()" << endl;
 					}
